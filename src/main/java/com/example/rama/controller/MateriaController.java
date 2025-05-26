@@ -49,20 +49,4 @@ public class MateriaController {
     public void eliminar(@PathVariable Long id) {
         materiaService.eliminar(id);
     }
-
-    //punto2
-
-    @GetMapping("/public/hello")
-    public String publicHello() {
-        return " endpoint público ";
-    }
-
-    @GetMapping("/private/hello")
-    public String privateHello() {
-        return " endpoint protegido ";
-    }
-
-    //fin punto2
-
-
 }

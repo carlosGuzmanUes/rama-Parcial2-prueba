@@ -5,6 +5,7 @@ import com.example.rama.repository.LoginService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -34,27 +35,34 @@ public class LogingView extends VerticalLayout{
         summitButton.getStyle().set("background-color", "#007bff").set("color", "white");
 
         VerticalLayout formLayout = new VerticalLayout(fieldsLayout,summitButton);
-        
-        configureGrid();
 
-        add(formLayout, grid);
+        add(formLayout);
         updateGrid();
     
     }
 
     private void updateGrid() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateGrid'");
+        grid.setItems(service.findAll());
+        clearForm();
     }
 
-    private void configureGrid() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'configureGrid'");
+    private void clearForm() {
+        selectedLogin = null;
+        userNameField.clear();
+        passwordField.clear();
     }
 
     private void summitCredentials() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'summitCredentials'");
+        if (selectedLogin == null) {
+            selectedLogin = new Login();
+        }
+        
+        selectedLogin.setUserName(userNameField.getValue());
+        selectedLogin.setPassWord(passwordField.getValue());
+
+        service.save(selectedLogin);
+        Notification.show("ingreso exitoso");
+        updateGrid();
     }
     
 
