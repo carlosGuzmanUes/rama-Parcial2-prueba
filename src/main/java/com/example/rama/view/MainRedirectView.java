@@ -13,6 +13,6 @@ public class MainRedirectView extends VerticalLayout {
 
     @PostConstruct
     private void init() {
-        UI.getCurrent().getPage().setLocation("actividades");
+        UI.getCurrent().getPage().setLocation("login");
     }
 }
