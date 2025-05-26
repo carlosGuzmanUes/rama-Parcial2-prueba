@@ -1,6 +1,6 @@
 package com.example.rama.config;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,20 +11,25 @@ import com.vaadin.flow.spring.security.VaadinWebSecurity;
 @EnableWebSecurity
 public class SecurityConfig extends VaadinWebSecurity {
 
-    @Value("${auth0.audience:}")
-    private String audience;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
-        // 1. Configurar OAuth2 Login PRIMERO
+        // Configuración de autorización
+        http.authorizeHttpRequests(authz -> authz
+            // Rutas públicas (sin autenticación)
+            .requestMatchers("/login/**", "/oauth2/**", "/actuator/health/**").permitAll()
+            // TODAS las demás rutas requieren autenticación
+            .anyRequest().authenticated()
+        );
+
+        // Configuración OAuth2 Login
         http.oauth2Login(oauth2 -> oauth2
             .loginPage("/login")
-            .defaultSuccessUrl("/", true)
+            .defaultSuccessUrl("/", true)  // Redirigir a página principal después del login
             .failureUrl("/login?error=true")
         );
 
-        // 2. Configurar Logout
+        // Configuración de Logout
         http.logout(logout -> logout
             .logoutUrl("/logout")
             .logoutSuccessUrl("/login?logout=true")
@@ -33,8 +38,7 @@ public class SecurityConfig extends VaadinWebSecurity {
             .deleteCookies("JSESSIONID")
         );
 
-        // 3. IMPORTANTE: super.configure() AL FINAL
-        // Esto maneja automáticamente las reglas de autorización para Vaadin
+        // Configuración de Vaadin (debe ir al final)
         super.configure(http);
     }
 }
