@@ -73,6 +73,34 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+
+	<!-- se inicia apartado de dependencias de auth0-->
+	    <!-- Auth0 Dependencies -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-oauth2-jose</artifactId>
+    </dependency>
+	<!--fin de apartado de dependencias de Auth0-->
+
+<!-- se inicia apartado de dependencias de springboot security-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+	    <!-- Actuator para monitoreo -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+	<!--fin de apartado de dependencias de springboot security-->
+
   </dependencies>
 
   <build>
