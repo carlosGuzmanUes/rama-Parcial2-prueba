@@ -1,4 +1,5 @@
 package com.example.rama.view;
+
 import com.example.rama.model.ClassActivities;
 import com.example.rama.service.ClassActivitiesService;
 import com.vaadin.flow.component.button.Button;
@@ -19,9 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-import jakarta.annotation.PostConstruct;
-
-@Route(value = "actividades", layout = MainLayout.class)
+// IMPORTANTE: Verificar que esta anotación esté correcta
+@Route(value = "actividades")//layout = MainLayout.class
 @PageTitle("Actividades | Sistema")
 // NO agregar @AnonymousAllowed - requiere autenticación
 public class classActivitiesView extends VerticalLayout {
@@ -42,17 +42,14 @@ public class classActivitiesView extends VerticalLayout {
         setSizeFull();
         setPadding(true);
         setSpacing(true);
-    }
-
-    @PostConstruct
-    private void init() {
-        // Verificar autenticación
+        
+        // Verificar autenticación al inicializar
         if (!isUserAuthenticated()) {
             showNotAuthenticatedMessage();
             return;
         }
 
-        // Crear la interfaz para usuarios autenticados
+        // Crear contenido para usuarios autenticados
         createAuthenticatedContent();
     }
 
@@ -95,7 +92,6 @@ public class classActivitiesView extends VerticalLayout {
     }
 
     private void createHeader() {
-        // Obtener información del usuario autenticado
         String userName = getCurrentUserName();
         
         H1 title = new H1("📚 Gestión de Actividades de Clase");
@@ -168,13 +164,6 @@ public class classActivitiesView extends VerticalLayout {
 
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeightFull();
-        
-        // Selección de filas
-        grid.asSingleSelect().addValueChangeListener(event -> {
-            if (event.getValue() != null) {
-                editActivity(event.getValue());
-            }
-        });
     }
 
     private void createNavigationButtons() {
@@ -187,20 +176,12 @@ public class classActivitiesView extends VerticalLayout {
         homeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         homeButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("")));
 
-        Button groupsButton = new Button("👥 Grupos");
-        groupsButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        groupsButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("grupos")));
-
-        Button materiasButton = new Button("📖 Materias");
-        materiasButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        materiasButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("materias")));
-
         Button logoutButton = new Button("🚪 Cerrar Sesión");
         logoutButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_TERTIARY);
         logoutButton.addClickListener(e -> 
             getUI().ifPresent(ui -> ui.getPage().setLocation("/logout")));
 
-        navigation.add(homeButton, groupsButton, materiasButton, logoutButton);
+        navigation.add(homeButton, logoutButton);
         add(navigation);
     }
 
@@ -215,7 +196,6 @@ public class classActivitiesView extends VerticalLayout {
     }
 
     private void saveOrUpdateActivity() {
-        // Validación básica
         if (descriptionField.isEmpty() || docenteField.isEmpty() || dateField.isEmpty()) {
             Notification notification = Notification.show("⚠️ Por favor, completa todos los campos");
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -233,8 +213,7 @@ public class classActivitiesView extends VerticalLayout {
 
             service.save(selectedActivity);
             
-            String message = selectedActivity.getId() != null ? "✅ Actividad actualizada exitosamente" : "✅ Actividad creada exitosamente";
-            Notification notification = Notification.show(message);
+            Notification notification = Notification.show("✅ Actividad guardada exitosamente");
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             
             updateGrid();
@@ -250,7 +229,6 @@ public class classActivitiesView extends VerticalLayout {
         docenteField.setValue(activity.getDocente() != null ? activity.getDocente() : "");
         dateField.setValue(activity.getDate() != null ? activity.getDate() : "");
         
-        // Cambiar texto del botón
         saveButton.setText("📝 Actualizar");
     }
 
