@@ -76,27 +76,27 @@
 
 	<!-- AGREGADO PARA EL PUNTO 2-->
 
-<!-- Agregar estas dependencias en la sección <dependencies> -->
-<dependency>
-    <groupId>com.auth0</groupId>
-    <artifactId>auth0-spring-security-api</artifactId>
-    <version>1.5.3</version>
-</dependency>
+	<!-- Agregar estas dependencias en la sección <dependencies> -->
+	<dependency>
+		<groupId>com.auth0</groupId>
+		<artifactId>auth0-spring-security-api</artifactId>
+		<version>1.5.3</version>
+	</dependency>
 
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+	</dependency>
 
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-security</artifactId>
-</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
 
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-oauth2-client</artifactId>
-</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-oauth2-client</artifactId>
+	</dependency>
 
 <!--fin de dependencias-->
   </dependencies>
