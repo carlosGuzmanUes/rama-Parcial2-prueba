@@ -22,7 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 // IMPORTANTE: Verificar que esta anotación esté correcta
-@Route(value = "actividades")//layout = MainLayout.class
+@Route(value = "actividades",layout = MainLayout.class)//layout = MainLayout.class
 @PageTitle("Actividades | Sistema")
 @AnonymousAllowed
 public class classActivitiesView extends VerticalLayout {

@@ -96,7 +96,7 @@ public class MainRedirectView extends VerticalLayout {
         
         Button activitiesBtn = createNavigationButton("📚 Actividades", "actividades", "#007bff");
         Button groupsBtn = createNavigationButton("👥 Grupos", "grupos", "#28a745");
-        Button subjectsBtn = createNavigationButton("📖 Materias", "materias", "#ffc107");
+        Button subjectsBtn = createNavigationButton("📖 Materias", "materia", "#ffc107");
         
         firstRow.add(activitiesBtn, groupsBtn, subjectsBtn);
         
