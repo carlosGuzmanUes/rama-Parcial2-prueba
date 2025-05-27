@@ -15,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 // IMPORTANTE: Verificar que esta anotación esté correcta
 @Route(value = "actividades")//layout = MainLayout.class
 @PageTitle("Actividades | Sistema")
-// NO agregar @AnonymousAllowed - requiere autenticación
+@AnonymousAllowed
 public class classActivitiesView extends VerticalLayout {
 
     private final ClassActivitiesService service;

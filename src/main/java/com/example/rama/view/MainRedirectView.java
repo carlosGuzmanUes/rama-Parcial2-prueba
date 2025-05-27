@@ -169,6 +169,6 @@ public class MainRedirectView extends VerticalLayout {
     }
 
     private void logout() {
-        getUI().ifPresent(ui -> ui.getPage().setLocation("/logout"));
+        getUI().ifPresent(ui -> ui.getPage().setLocation("/login"));
     }
 }
