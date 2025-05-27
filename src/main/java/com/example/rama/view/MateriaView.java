@@ -15,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +25,7 @@ import jakarta.annotation.PostConstruct;
 
 @Route(value = "materia", layout = MainLayout.class)
 @PageTitle("Materias | Sistema")
-// REMOVIDO @AnonymousAllowed - ahora requiere autenticación
+ @AnonymousAllowed
 public class MateriaView extends VerticalLayout {
 
     private final MateriaService materiaService;
