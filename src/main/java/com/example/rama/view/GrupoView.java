@@ -11,9 +11,11 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = "grupos", layout = MainLayout.class)
 @PageTitle("Grupos | Sistema")
+@AnonymousAllowed
 public class GrupoView extends VerticalLayout {
 
     private final GrupoService grupoService;

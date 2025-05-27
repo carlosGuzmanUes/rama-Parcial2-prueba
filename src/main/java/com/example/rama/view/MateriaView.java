@@ -13,9 +13,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = "materia", layout = MainLayout.class)
 @PageTitle("Materia | Sistema")
+@AnonymousAllowed
 public class MateriaView extends VerticalLayout {
 
     private final MateriaService materiaService;
