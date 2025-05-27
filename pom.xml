@@ -19,7 +19,7 @@
     <vaadin.version>24.2.0</vaadin.version>
   </properties>
 
-  <!-- 🔽 Spring Boot BOM para manejar versiones automáticamente -->
+  <!-- Spring Boot BOM para manejar versiones automáticamente -->
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -29,37 +29,65 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <!-- Vaadin BOM -->
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
-    <!-- Spring Boot Starter Web -->
+    <!-- Spring Boot Starters -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Spring Boot Starter Data JPA -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
-    <!-- PostgreSQL JDBC Driver -->
     <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.7.3</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <!-- OAuth2 Dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-oauth2-jose</artifactId>
     </dependency>
 
     <!-- Vaadin -->
-	<dependency>
-		<groupId>com.vaadin</groupId>
-		<artifactId>vaadin-spring-boot-starter</artifactId>
-		<version>24.1.4</version>
-	</dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-spring-boot-starter</artifactId>
+    </dependency>
 
-    <!-- DevTools (opcional para desarrollo local) -->
+    <!-- PostgreSQL -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Actuator -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- DevTools -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
@@ -67,7 +95,7 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- Spring Boot Test -->
+    <!-- Test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -77,6 +105,35 @@
 
   <build>
     <plugins>
+      <!-- Spring Boot Plugin-->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring.boot.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Vaadin Plugin -->
+      <plugin>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-maven-plugin</artifactId>
+        <version>${vaadin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-frontend</goal>
+              <goal>build-frontend</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Compilador de Java -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -87,37 +144,6 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
-
-
-	<plugin>
-		<groupId>com.vaadin</groupId>
-		<artifactId>vaadin-maven-plugin</artifactId>
-		<version>24.1.4</version>
-		<executions>
-			<execution>
-			<goals>
-				<goal>prepare-frontend</goal>
-				<goal>build-frontend</goal>
-			</goals>
-			</execution>
-		</executions>
-	</plugin>
-	
-      <!-- Spring Boot Plugin -->
-      <plugin>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-maven-plugin</artifactId>
-      <version>3.1.0</version> <!-- O la versión que uses -->
-      <executions>
-        <execution>
-          <goals>
-            <goal>repackage</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
     </plugins>
   </build>
-
 </project>
-

@@ -16,7 +16,7 @@ public class Materia {
 
     private String docente;
 
-    private String horario; // Nuevo campo agregado
+    private String horario; 
 
     // Getters y Setters
     public Long getId() {
