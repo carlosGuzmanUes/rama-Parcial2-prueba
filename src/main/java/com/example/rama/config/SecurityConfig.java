@@ -13,7 +13,7 @@ public class SecurityConfig extends VaadinWebSecurity {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
-        // 1. Configurar OAuth2 Login PRIMERO
+        // 1. Configurar OAuth2 Login 
         http.oauth2Login(oauth2 -> oauth2
             .loginPage("/login")
             .defaultSuccessUrl("/", true)
@@ -29,8 +29,6 @@ public class SecurityConfig extends VaadinWebSecurity {
             .deleteCookies("JSESSIONID")
         );
 
-        // 3. IMPORTANTE: super.configure() debe ir AL FINAL
-        // Esto maneja automáticamente todas las reglas de autorización de Vaadin
         super.configure(http);
     }
 }

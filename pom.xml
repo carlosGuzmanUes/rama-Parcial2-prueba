@@ -68,7 +68,7 @@
       <artifactId>spring-security-oauth2-jose</artifactId>
     </dependency>
 
-    <!-- Vaadin (sin versión explícita, usa el BOM) -->
+    <!-- Vaadin -->
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-spring-boot-starter</artifactId>
@@ -105,7 +105,7 @@
 
   <build>
     <plugins>
-      <!-- Spring Boot Plugin (versión consistente) -->
+      <!-- Spring Boot Plugin-->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -119,7 +119,7 @@
         </executions>
       </plugin>
 
-      <!-- Vaadin Plugin (versión consistente) -->
+      <!-- Vaadin Plugin -->
       <plugin>
         <groupId>com.vaadin</groupId>
         <artifactId>vaadin-maven-plugin</artifactId>

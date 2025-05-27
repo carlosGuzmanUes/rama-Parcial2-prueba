@@ -101,16 +101,16 @@ public class MainRedirectView extends VerticalLayout {
         firstRow.add(activitiesBtn, groupsBtn, subjectsBtn);
         
         // Segunda fila de botones
-        HorizontalLayout secondRow = new HorizontalLayout();
-        secondRow.setJustifyContentMode(JustifyContentMode.CENTER);
-        secondRow.setSpacing(true);
+        // HorizontalLayout secondRow = new HorizontalLayout();
+        // secondRow.setJustifyContentMode(JustifyContentMode.CENTER);
+        // secondRow.setSpacing(true);
         
-        Button pagesBtn = createNavigationButton("📄 Páginas", "pages", "#17a2b8");
-        Button profileBtn = createNavigationButton("👤 Perfil", "profile", "#6f42c1");
+        // Button pagesBtn = createNavigationButton("📄 Páginas", "pages", "#17a2b8");
+        // Button profileBtn = createNavigationButton("👤 Perfil", "profile", "#6f42c1");
         
-        secondRow.add(pagesBtn, profileBtn);
+        // secondRow.add(pagesBtn, profileBtn);
         
-        section.add(sectionTitle, firstRow, secondRow);
+        section.add(sectionTitle, firstRow);//secondRow
         return section;
     }
 

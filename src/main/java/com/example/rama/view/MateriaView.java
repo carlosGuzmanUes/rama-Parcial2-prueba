@@ -188,7 +188,7 @@ public class MateriaView extends VerticalLayout {
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeightFull();
         
-        // Selección de filas
+        // Seleccion de filas
         grid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 selectMateria(event.getValue());
@@ -309,7 +309,7 @@ public class MateriaView extends VerticalLayout {
         docenteField.setValue(materia.getDocente() != null ? materia.getDocente() : "");
         horarioField.setValue(materia.getHorario() != null ? materia.getHorario() : "");
         
-        // Habilitar botones de edición
+        // Habilitar botones de edicion
         saveButton.setEnabled(false);
         updateButton.setEnabled(true);
         deleteButton.setEnabled(true);

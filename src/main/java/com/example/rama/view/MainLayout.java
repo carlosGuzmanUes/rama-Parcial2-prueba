@@ -50,7 +50,7 @@ public class MainLayout extends AppLayout {
             .set("background-color", "#dc3545")
             .set("color", "white");
         logoutButton.addClickListener(e -> 
-            getUI().ifPresent(ui -> ui.getPage().setLocation("/logout")));
+            getUI().ifPresent(ui -> ui.getPage().setLocation("/login")));
 
         HorizontalLayout userSection = new HorizontalLayout();
         VerticalLayout userDetails = new VerticalLayout(userInfo, emailInfo);
