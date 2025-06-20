@@ -29,7 +29,7 @@ public class MainRedirectView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
         
-        // Verificar autenticación y mostrar contenido apropiado
+        // Verificar autenticacion y mostrar contenido apropiado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
         if (isUserAuthenticated(authentication)) {
@@ -48,11 +48,11 @@ public class MainRedirectView extends VerticalLayout {
     private void showAuthenticatedContent(Authentication authentication) {
         OidcUser user = (OidcUser) authentication.getPrincipal();
         
-        // Título de bienvenida
+        // Titulo de bienvenida
         H1 welcomeTitle = new H1("🎉 ¡Bienvenido!");
         welcomeTitle.getStyle().set("color", "#1976D2").set("margin-bottom", "10px");
         
-        // Información del usuario
+        // Informacion del usuario
         H2 userGreeting = new H2("Hola, " + getUserName(user));
         userGreeting.getStyle().set("color", "#333").set("margin-top", "0");
         
@@ -62,7 +62,7 @@ public class MainRedirectView extends VerticalLayout {
         // Botones de navegación a tus vistas existentes
         VerticalLayout navigationSection = createNavigationSection();
         
-        // Botón de logout
+        // Boton de logout
         Button logoutButton = new Button("🚪 Cerrar Sesión");
         logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         logoutButton.addClickListener(e -> logout());
