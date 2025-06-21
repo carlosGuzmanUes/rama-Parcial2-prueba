@@ -11,13 +11,13 @@ public class ActivityEvidence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "filename", nullable = false)
+    @Column(name = "filename")
     private String filename;
 
-    @Column(name = "original_filename", nullable = false)
+    @Column(name = "original_filename")
     private String originalFilename;
 
-    @Column(name = "file_path", nullable = false)
+    @Column(name = "file_path")
     private String filePath;
 
     @Column(name = "file_size")
@@ -40,7 +40,7 @@ public class ActivityEvidence {
 
     // Relación con la actividad
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "activity_id", nullable = false)
+    @JoinColumn(name = "activity_id")
     private ClassActivities activity;
 
     // Constructores
@@ -69,7 +69,7 @@ public class ActivityEvidence {
     }
 
     public boolean isImageFile() {
-        return fileExtension.matches("\\.(jpg|jpeg|png|gif|bmp)$");
+        return fileExtension != null && fileExtension.matches("\\.(jpg|jpeg|png|gif|bmp)$");
     }
 
     public boolean isPdfFile() {
@@ -77,7 +77,7 @@ public class ActivityEvidence {
     }
 
     public boolean isDocumentFile() {
-        return fileExtension.matches("\\.(doc|docx|xls|xlsx|ppt|pptx)$");
+        return fileExtension != null && fileExtension.matches("\\.(doc|docx|xls|xlsx|ppt|pptx)$");
     }
 
     public String getFileIcon() {
@@ -85,96 +85,6 @@ public class ActivityEvidence {
         if (isPdfFile()) return "📄";
         if (isDocumentFile()) return "📋";
         return "📎";
-    }
-
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public String getOriginalFilename() {
-        return originalFilename;
-    }
-
-    public void setOriginalFilename(String originalFilename) {
-        this.originalFilename = originalFilename;
-        this.fileExtension = extractFileExtension(originalFilename);
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public Long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(Long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public String getFileExtension() {
-        return fileExtension;
-    }
-
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUploadedBy() {
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
-    }
-
-    public LocalDateTime getUploadedAt() {
-        return uploadedAt;
-    }
-
-    public void setUploadedAt(LocalDateTime uploadedAt) {
-        this.uploadedAt = uploadedAt;
-    }
-
-    public ClassActivities getActivity() {
-        return activity;
-    }
-
-    public void setActivity(ClassActivities activity) {
-        this.activity = activity;
     }
 
     public String getFormattedFileSize() {
@@ -187,13 +97,49 @@ public class ActivityEvidence {
         return String.format("%.1f GB", bytes / (1024 * 1024 * 1024));
     }
 
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getFilename() { return filename; }
+    public void setFilename(String filename) { this.filename = filename; }
+
+    public String getOriginalFilename() { return originalFilename; }
+    public void setOriginalFilename(String originalFilename) { 
+        this.originalFilename = originalFilename;
+        this.fileExtension = extractFileExtension(originalFilename);
+    }
+
+    public String getFilePath() { return filePath; }
+    public void setFilePath(String filePath) { this.filePath = filePath; }
+
+    public Long getFileSize() { return fileSize; }
+    public void setFileSize(Long fileSize) { this.fileSize = fileSize; }
+
+    public String getContentType() { return contentType; }
+    public void setContentType(String contentType) { this.contentType = contentType; }
+
+    public String getFileExtension() { return fileExtension; }
+    public void setFileExtension(String fileExtension) { this.fileExtension = fileExtension; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getUploadedBy() { return uploadedBy; }
+    public void setUploadedBy(String uploadedBy) { this.uploadedBy = uploadedBy; }
+
+    public LocalDateTime getUploadedAt() { return uploadedAt; }
+    public void setUploadedAt(LocalDateTime uploadedAt) { this.uploadedAt = uploadedAt; }
+
+    public ClassActivities getActivity() { return activity; }
+    public void setActivity(ClassActivities activity) { this.activity = activity; }
+
     @Override
     public String toString() {
         return "ActivityEvidence{" +
                 "id=" + id +
                 ", originalFilename='" + originalFilename + '\'' +
                 ", fileSize=" + fileSize +
-                ", contentType='" + contentType + '\'' +
                 ", uploadedAt=" + uploadedAt +
                 '}';
     }
