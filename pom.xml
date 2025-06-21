@@ -41,6 +41,50 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <!-- Agregar estas dependencias a tu pom.xml -->
+
+<!-- Para generación de PDFs con iText -->
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>itextpdf</artifactId>
+    <version>5.5.13.3</version>
+</dependency>
+
+<!-- Para manejo de archivos y fechas -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<!-- Para upload de archivos -->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>
+
+<!-- Para validación -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
+<!-- Para manejo de JSON (si necesitas serializar datos) -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+
+<!-- Para manejo de fechas y tiempo -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+
+
+
     <!-- Spring Boot Starters -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

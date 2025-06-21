@@ -4,6 +4,7 @@ import com.example.rama.model.ClassActivities;
 import com.example.rama.service.ClassActivitiesService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H1;
@@ -21,7 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-@Route(value = "actividades",layout = MainLayout.class)
+import java.time.LocalDate;
+
+@Route(value = "actividades", layout = MainLayout.class)
 @PageTitle("Actividades | Sistema")
 @AnonymousAllowed
 public class classActivitiesView extends VerticalLayout {
@@ -31,7 +34,8 @@ public class classActivitiesView extends VerticalLayout {
 
     private final TextField descriptionField = new TextField("Descripción");
     private final TextField docenteField = new TextField("Docente");
-    private final TextField dateField = new TextField("Fecha");
+    // ✅ CORRECCIÓN: Cambiar a DatePicker
+    private final DatePicker dateField = new DatePicker("Fecha");
     private final Button saveButton = new Button("Guardar");
     private final Button cancelButton = new Button("Cancelar");
 
@@ -115,7 +119,9 @@ public class classActivitiesView extends VerticalLayout {
         docenteField.setPlaceholder("Nombre del docente");
         docenteField.setWidthFull();
         
-        dateField.setPlaceholder("Fecha (ej: 2024-01-15)");
+        // ✅ CORRECCIÓN: Configurar DatePicker
+        dateField.setPlaceholder("Seleccionar fecha");
+        dateField.setValue(LocalDate.now()); // Fecha actual por defecto
         dateField.setWidthFull();
 
         // Layout de campos
@@ -146,9 +152,20 @@ public class classActivitiesView extends VerticalLayout {
 
     private void configureGrid() {
         grid.removeAllColumns();
-        grid.addColumn(ClassActivities::getDescription).setHeader("📝 Descripción").setFlexGrow(2);
-        grid.addColumn(ClassActivities::getDocente).setHeader("👨‍🏫 Docente").setFlexGrow(1);
-        grid.addColumn(ClassActivities::getDate).setHeader("📅 Fecha").setFlexGrow(1);
+        
+        // ✅ CORRECCIÓN: Mostrar fecha correctamente
+        grid.addColumn(activity -> activity.getDate() != null ? 
+            activity.getDate().toString() : "N/A")
+            .setHeader("📅 Fecha")
+            .setFlexGrow(1);
+            
+        grid.addColumn(ClassActivities::getDescription)
+            .setHeader("📝 Descripción")
+            .setFlexGrow(2);
+            
+        grid.addColumn(ClassActivities::getDocente)
+            .setHeader("👨‍🏫 Docente")
+            .setFlexGrow(1);
 
         grid.addComponentColumn(activity -> {
             Button editButton = new Button("✏️ Editar", e -> editActivity(activity));
@@ -176,12 +193,20 @@ public class classActivitiesView extends VerticalLayout {
         homeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         homeButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("")));
 
+        Button advancedButton = new Button("🚀 Gestión Avanzada");
+        advancedButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        advancedButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("actividades-mejoradas")));
+
+        Button historyButton = new Button("📊 Historial");
+        historyButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        historyButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("historial-actividades")));
+
         Button logoutButton = new Button("🚪 Cerrar Sesión");
         logoutButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_TERTIARY);
         logoutButton.addClickListener(e -> 
             getUI().ifPresent(ui -> ui.getPage().setLocation("/logout")));
 
-        navigation.add(homeButton, logoutButton);
+        navigation.add(homeButton, advancedButton, historyButton, logoutButton);
         add(navigation);
     }
 
@@ -195,6 +220,7 @@ public class classActivitiesView extends VerticalLayout {
         }
     }
 
+    // ✅ CORRECCIÓN: Método saveOrUpdateActivity corregido
     private void saveOrUpdateActivity() {
         if (descriptionField.isEmpty() || docenteField.isEmpty() || dateField.isEmpty()) {
             Notification notification = Notification.show("⚠️ Por favor, completa todos los campos");
@@ -209,7 +235,8 @@ public class classActivitiesView extends VerticalLayout {
 
             selectedActivity.setDescription(descriptionField.getValue().trim());
             selectedActivity.setDocente(docenteField.getValue().trim());
-            selectedActivity.setDate(dateField.getValue().trim());
+            // ✅ CORRECCIÓN: Usar LocalDate directamente
+            selectedActivity.setDate(dateField.getValue());
 
             service.save(selectedActivity);
             
@@ -220,14 +247,20 @@ public class classActivitiesView extends VerticalLayout {
         } catch (Exception e) {
             Notification notification = Notification.show("❌ Error al guardar: " + e.getMessage());
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            
+            // Log del error para debugging
+            System.err.println("Error guardando actividad: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
+    // ✅ CORRECCIÓN: Método editActivity corregido
     private void editActivity(ClassActivities activity) {
         this.selectedActivity = activity;
         descriptionField.setValue(activity.getDescription() != null ? activity.getDescription() : "");
         docenteField.setValue(activity.getDocente() != null ? activity.getDocente() : "");
-        dateField.setValue(activity.getDate() != null ? activity.getDate() : "");
+        // ✅ CORRECCIÓN: Manejar LocalDate correctamente
+        dateField.setValue(activity.getDate() != null ? activity.getDate() : LocalDate.now());
         
         saveButton.setText("📝 Actualizar");
     }
@@ -244,11 +277,13 @@ public class classActivitiesView extends VerticalLayout {
         }
     }
 
+    // ✅ CORRECCIÓN: Método clearForm corregido
     private void clearForm() {
         selectedActivity = null;
         descriptionField.clear();
         docenteField.clear();
-        dateField.clear();
+        // ✅ CORRECCIÓN: Establecer fecha actual por defecto
+        dateField.setValue(LocalDate.now());
         saveButton.setText("💾 Guardar");
     }
 
