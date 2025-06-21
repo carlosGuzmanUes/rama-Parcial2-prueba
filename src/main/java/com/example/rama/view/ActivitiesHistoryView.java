@@ -30,6 +30,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.server.StreamResource;
 import java.io.ByteArrayInputStream;
+import com.example.rama.util.MultipartFileWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -683,52 +684,4 @@ private void downloadEvidence(ActivityEvidence evidence) {
         return "Usuario";
     }
 
-    // Clase auxiliar para manejar archivos upload
-    private static class MultipartFileWrapper implements org.springframework.web.multipart.MultipartFile {
-        private final MemoryBuffer buffer;
-        private final String filename;
-        private final String contentType;
-
-        public MultipartFileWrapper(MemoryBuffer buffer, String filename, String contentType) {
-            this.buffer = buffer;
-            this.filename = filename;
-            this.contentType = contentType;
-        }
-
-        @Override
-        public String getName() { return "file"; }
-
-        @Override
-        public String getOriginalFilename() { return filename; }
-
-        @Override
-        public String getContentType() { return contentType; }
-
-        @Override
-        public boolean isEmpty() { return buffer.getFileData() == null; }
-
-        @Override
-        public long getSize() { 
-            try {
-                return buffer.getInputStream().available();
-            } catch (Exception e) {
-                return 0;
-            }
-        }
-
-        @Override
-        public byte[] getBytes() throws java.io.IOException {
-            return buffer.getInputStream().readAllBytes();
-        }
-
-        @Override
-        public java.io.InputStream getInputStream() throws java.io.IOException {
-            return buffer.getInputStream();
-        }
-
-        @Override
-        public void transferTo(java.io.File dest) throws java.io.IOException, IllegalStateException {
-            throw new UnsupportedOperationException();
-        }
-    }
 }
