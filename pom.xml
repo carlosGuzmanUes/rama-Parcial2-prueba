@@ -78,10 +78,23 @@
       <artifactId>spring-security-oauth2-jose</artifactId>
     </dependency>
 
-    <!-- ✅ VAADIN -->
+    <!-- ✅ VAADIN CON EXCLUSIÓN DE COMMONS-IO CONFLICTIVO -->
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- ✅ VERSIÓN CORRECTA DE COMMONS-IO -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.15.1</version>
     </dependency>
 
     <!-- ✅ POSTGRESQL -->
@@ -99,12 +112,9 @@
       <version>5.5.13.3</version>
     </dependency>
 
-    <!-- Para upload de archivos -->
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.4</version>
-    </dependency>
+    <!-- ✅ ELIMINADA: commons-fileupload conflictiva -->
+    <!-- Spring Boot ya maneja multipart files automáticamente -->
+    <!-- Si necesitas funcionalidad específica, usar Spring Boot starter-web -->
 
     <!-- Para manejo de JSON (ya viene con spring-boot-starter-web) -->
     <dependency>
