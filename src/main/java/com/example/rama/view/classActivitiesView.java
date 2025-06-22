@@ -1,5 +1,11 @@
 package com.example.rama.view;
 
+import java.time.LocalDate;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+
 import com.example.rama.model.ClassActivities;
 import com.example.rama.service.ClassActivitiesService;
 import com.vaadin.flow.component.button.Button;
@@ -18,12 +24,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-
-import java.time.LocalDate;
-
 @Route(value = "actividades", layout = MainLayout.class)
 @PageTitle("Actividades | Sistema")
 @AnonymousAllowed
@@ -34,7 +34,7 @@ public class classActivitiesView extends VerticalLayout {
 
     private final TextField descriptionField = new TextField("Descripción");
     private final TextField docenteField = new TextField("Docente");
-    // ✅ CORRECCIÓN: Cambiar a DatePicker
+    // CORRECCIÓN: Cambiar a DatePicker
     private final DatePicker dateField = new DatePicker("Fecha");
     private final Button saveButton = new Button("Guardar");
     private final Button cancelButton = new Button("Cancelar");
@@ -65,12 +65,12 @@ public class classActivitiesView extends VerticalLayout {
     }
 
     private void showNotAuthenticatedMessage() {
-        H1 errorTitle = new H1("🔒 Acceso Denegado");
+        H1 errorTitle = new H1("Acceso Denegado");
         errorTitle.getStyle().set("color", "#dc3545");
         
         Span message = new Span("Necesitas iniciar sesión para acceder a esta página.");
         
-        Button loginButton = new Button("🚀 Ir al Login");
+        Button loginButton = new Button("Ir al Login");
         loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         loginButton.addClickListener(e -> 
             getUI().ifPresent(ui -> ui.navigate("login")));
@@ -98,10 +98,10 @@ public class classActivitiesView extends VerticalLayout {
     private void createHeader() {
         String userName = getCurrentUserName();
         
-        H1 title = new H1("📚 Gestión de Actividades de Clase");
+        H1 title = new H1("Gestión de Actividades de Clase");
         title.getStyle().set("color", "#1976D2").set("margin-bottom", "5px");
         
-        Span welcomeMsg = new Span("👋 Hola, " + userName + " - Aquí puedes gestionar las actividades de clase");
+        Span welcomeMsg = new Span("Hola, " + userName + " - Aquí puedes gestionar las actividades de clase");
         welcomeMsg.getStyle().set("color", "#666").set("font-style", "italic");
         
         VerticalLayout header = new VerticalLayout(title, welcomeMsg);
@@ -119,7 +119,7 @@ public class classActivitiesView extends VerticalLayout {
         docenteField.setPlaceholder("Nombre del docente");
         docenteField.setWidthFull();
         
-        // ✅ CORRECCIÓN: Configurar DatePicker
+        // CORRECCIÓN: Configurar DatePicker
         dateField.setPlaceholder("Seleccionar fecha");
         dateField.setValue(LocalDate.now()); // Fecha actual por defecto
         dateField.setWidthFull();
@@ -153,31 +153,31 @@ public class classActivitiesView extends VerticalLayout {
     private void configureGrid() {
         grid.removeAllColumns();
         
-        // ✅ CORRECCIÓN: Mostrar fecha correctamente
+        // CORRECCIÓN: Mostrar fecha correctamente
         grid.addColumn(activity -> activity.getDate() != null ? 
             activity.getDate().toString() : "N/A")
-            .setHeader("📅 Fecha")
+            .setHeader("Fecha")
             .setFlexGrow(1);
             
         grid.addColumn(ClassActivities::getDescription)
-            .setHeader("📝 Descripción")
+            .setHeader("Descripción")
             .setFlexGrow(2);
             
         grid.addColumn(ClassActivities::getDocente)
-            .setHeader("👨‍🏫 Docente")
+            .setHeader("Docente")
             .setFlexGrow(1);
 
         grid.addComponentColumn(activity -> {
-            Button editButton = new Button("✏️ Editar", e -> editActivity(activity));
+            Button editButton = new Button("Editar", e -> editActivity(activity));
             editButton.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
             
-            Button deleteButton = new Button("🗑️ Eliminar", e -> deleteActivity(activity));
+            Button deleteButton = new Button("Eliminar", e -> deleteActivity(activity));
             deleteButton.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_ERROR);
             
             HorizontalLayout actions = new HorizontalLayout(editButton, deleteButton);
             actions.setSpacing(true);
             return actions;
-        }).setHeader("⚙️ Acciones").setFlexGrow(0);
+        }).setHeader("Acciones").setFlexGrow(0);
 
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeightFull();
@@ -189,7 +189,7 @@ public class classActivitiesView extends VerticalLayout {
         navigation.setSpacing(true);
         navigation.getStyle().set("margin-top", "20px");
 
-        Button homeButton = new Button("🏠 Inicio");
+        Button homeButton = new Button("Inicio");
         homeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         homeButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("")));
 
@@ -197,11 +197,11 @@ public class classActivitiesView extends VerticalLayout {
         advancedButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         advancedButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("actividades-mejoradas")));
 
-        Button historyButton = new Button("📊 Historial");
+        Button historyButton = new Button("Historial");
         historyButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
         historyButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("historial-actividades")));
 
-        Button logoutButton = new Button("🚪 Cerrar Sesión");
+        Button logoutButton = new Button("Cerrar Sesión");
         logoutButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_TERTIARY);
         logoutButton.addClickListener(e -> 
             getUI().ifPresent(ui -> ui.getPage().setLocation("/logout")));
@@ -215,15 +215,15 @@ public class classActivitiesView extends VerticalLayout {
             grid.setItems(service.findAll());
             clearForm();
         } catch (Exception e) {
-            Notification notification = Notification.show("❌ Error al cargar las actividades: " + e.getMessage());
+            Notification notification = Notification.show("Error al cargar las actividades: " + e.getMessage());
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 
-    // ✅ CORRECCIÓN: Método saveOrUpdateActivity corregido
+    // CORRECCIÓN: Método saveOrUpdateActivity corregido
     private void saveOrUpdateActivity() {
         if (descriptionField.isEmpty() || docenteField.isEmpty() || dateField.isEmpty()) {
-            Notification notification = Notification.show("⚠️ Por favor, completa todos los campos");
+            Notification notification = Notification.show("Por favor, completa todos los campos");
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
@@ -235,17 +235,17 @@ public class classActivitiesView extends VerticalLayout {
 
             selectedActivity.setDescription(descriptionField.getValue().trim());
             selectedActivity.setDocente(docenteField.getValue().trim());
-            // ✅ CORRECCIÓN: Usar LocalDate directamente
+            // CORRECCIÓN: Usar LocalDate directamente
             selectedActivity.setDate(dateField.getValue());
 
             service.save(selectedActivity);
             
-            Notification notification = Notification.show("✅ Actividad guardada exitosamente");
+            Notification notification = Notification.show("Actividad guardada exitosamente");
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             
             updateGrid();
         } catch (Exception e) {
-            Notification notification = Notification.show("❌ Error al guardar: " + e.getMessage());
+            Notification notification = Notification.show("Error al guardar: " + e.getMessage());
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             
             // Log del error para debugging
@@ -259,7 +259,7 @@ public class classActivitiesView extends VerticalLayout {
         this.selectedActivity = activity;
         descriptionField.setValue(activity.getDescription() != null ? activity.getDescription() : "");
         docenteField.setValue(activity.getDocente() != null ? activity.getDocente() : "");
-        // ✅ CORRECCIÓN: Manejar LocalDate correctamente
+        // CORRECCIÓN: Manejar LocalDate correctamente
         dateField.setValue(activity.getDate() != null ? activity.getDate() : LocalDate.now());
         
         saveButton.setText("📝 Actualizar");
@@ -277,14 +277,14 @@ public class classActivitiesView extends VerticalLayout {
         }
     }
 
-    // ✅ CORRECCIÓN: Método clearForm corregido
+    // CORRECCIÓN: Método clearForm corregido
     private void clearForm() {
         selectedActivity = null;
         descriptionField.clear();
         docenteField.clear();
-        // ✅ CORRECCIÓN: Establecer fecha actual por defecto
+        // CORRECCIÓN: Establecer fecha actual por defecto
         dateField.setValue(LocalDate.now());
-        saveButton.setText("💾 Guardar");
+        saveButton.setText("Guardar");
     }
 
     private String getCurrentUserName() {
